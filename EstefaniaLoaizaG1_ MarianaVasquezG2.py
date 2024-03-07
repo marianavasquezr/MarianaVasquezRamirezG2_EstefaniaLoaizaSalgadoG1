@@ -79,7 +79,27 @@ class Marcapasos(Implantes_M):
        return self.__frecuencia
     
 class Stents(Implantes_M):
-    pass
+    def __init__(self):
+        Implantes_M.__init__(self) #llamo el inicializador de la clase implantes medicos y obtengo sus atributos
+        self.__longitud = 0.0 # agrego atributos propios de la clase Stents y metodos
+        self.__diametro = 0.0
+        self.__material = ""
+
+    #setters
+    def asignarLongitud(self, l):
+        self.__longitud = l
+    def asignarDiametro(self, d):
+        self.__diametro = d
+    def asignarMaterial(self, m):
+        self.__material = m
+
+    #getters
+    def verLongitud(self):
+        return self.__longitud
+    def verDiametro(self):
+        return self.__diametro
+    def verMaterial(self):
+        return self.__material
 
 class ImplantesD(Implantes_M):
     def __init__(self):
