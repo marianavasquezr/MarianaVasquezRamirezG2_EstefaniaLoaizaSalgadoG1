@@ -41,8 +41,32 @@ class Implantes_M():
         return self.__estado
         
 class Protesis_C(Implantes_M):
-    pass
-
+    def __init__(self):
+        Implantes_M.__init__(self)
+        self.__material = ""
+        self.__fijacion = ""
+        self.__tamaño = 0.0
+        
+    #setters
+    def asignarMaterial(self, m):
+        self.__material = m
+        
+    def asignarFijacion(self, fi):
+        self.__fijacion = fi
+        
+    def asignarTamaño(self, t): 
+        self.__tamaño = t
+            
+    #getters
+    def verMaterial(self):
+        return self.__material
+    
+    def verFijacion(self):
+        return self.__fijacion
+    
+    def verTamaño(self):
+        return self.__tamaño
+    
 class Marcapasos(Implantes_M):
     pass
 
