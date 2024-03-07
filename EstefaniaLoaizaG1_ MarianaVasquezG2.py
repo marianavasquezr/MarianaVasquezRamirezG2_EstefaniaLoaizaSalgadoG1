@@ -95,7 +95,27 @@ class Stents(Implantes_M):
 
 
 class ImplantesD(Implantes_M):
-    pass
+    def __init__(self):
+        Implantes_M.__init__(self) #llamo el inicializador de la clase implantes medicos y obtengo sus atributos
+        self.__forma = ""
+        self.__sistemaFijacion = ""
+        self.__material = ""
+    
+    #setters
+    def asignarForma(self, f):
+        self.__forma = f
+    def asignarSistemaFijacion(self, sist):
+        self.__sistemaFijacion = sist
+    def asignarMaterial(self, m):
+        self.__material = m
+    
+    #getters
+    def verForma(self):
+        return self.__forma
+    def verSistemaFijacion(self):
+        return self.__sistemaFijacion
+    def verMaterial(self):
+        return self.__material
 
 class Protesis_R(Implantes_M):
     pass
