@@ -125,7 +125,26 @@ class ImplantesD(Implantes_M):
         return self.__material
 
 class Protesis_R(Implantes_M):
-    pass
+    def __init__(self):
+        Implantes_M.__init__(self) #llamo el inicializador de la clase implantes medicos y obtengo sus atributos
+        self.__material = ""
+        self.__tipoFijacion = ""
+        self.__tamaño = 0.0
+    
+    #setters
+    def asignarMateria(self, m):
+        self.__material = m
+    def asignarTipoFijacion(self, fij):
+        self.__tipoFijacion = fij
+    def asignarTamaño(self, t):
+        self.__tamaño = t
 
+    #getters
+    def verMaterial(self):
+        return self.__material 
+    def verTipoFijacion(self):
+        return self.__tipoFijacion
+    def verTamaño(self):
+        return self.__tamaño
 class Sistema():
     pass
