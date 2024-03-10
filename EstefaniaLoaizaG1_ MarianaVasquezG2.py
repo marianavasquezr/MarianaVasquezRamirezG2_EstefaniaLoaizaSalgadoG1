@@ -1,13 +1,68 @@
+#Funcion para validar enteros
+def valid_int(value):
+    ''' Funcion para validar números enteros '''
+    while True:
+        try:
+            dato = int(input(value))
+            return dato
+        except ValueError:
+            print("Ingrese un dato válido (números enteros)\n")
+def valid_letter(question):
+    import re
+    ''' Valida que el dato ingresado sea de caracteres alfabetico, 
+    incluyendo tildes, mayusculas, minusculas, espacio sin aceptar caracteres especiales o números '''
+    while True:
+        txt = input(question)
+        try:
+            if re.match("^[a-zA-Z-ñÑ-áÁéÉíÍóÓúÚ ]*$", txt):
+                return txt
+            else:
+                print("Ingresó caracteres especiales o números")
+        except ValueError:
+            print("\nIngrese solo letras y espacios, intente de nuevo")
+class Paciente:
+    #Creamos el método constructor de Paciente para incializar sus atributos
+    def __init__(self):
+      self.__nombre = ""
+      self.__cedula = 0
+      self.__genero = ""
+      self.__implante = {} #contenedor para almacenar los implantes asociados al paciente
+    #Getters  
+    def verNombre(self):
+        return self.__nombre
+    def verGenero(self):
+        return self.__genero
+    def verCedula(self):
+        return self.__cedula
+    def verImplante(self):
+        return self.__implante
+    #Setters
+    def asignarNombre(self,n):
+        self.__nombre = n
+    def asignarGenero(self,g):
+        self.__genero = g
+    def asignarCedula(self,c):
+        self.__cedula = c
+    def asignarImplante(self, implante):
+        self.__implante[Implantes_M.verId] = implante 
+    #Deleters
+    def eliminarImplante(self, id):
+        if id in self.__implante:
+            del self.__implante[id]
+            print(f"Implante con número de identificación {id} eliminado correctamente.")
+        else:
+            print(f"No se encontro un implante con número de identificación {id} asociado al paciente.")
 #Se crea la clase padre implantes_M que es la de las caracteristicas generales de los implantes medicos
 class Implantes_M():
     #Se  inicializa la clase con el metodo init
     def __init__(self):
+        #Atributos privados
         self.__nombre = ""
         self.__id = 0
         self.__fecha = ""
         self.__fabricante = ""
         self.__estado = ""
-     
+    #Los setters y los getters son los metodos de acceso a los atributos
     #setters
     def asignarNombre(self, n):
         self.__nombre = n    
@@ -146,5 +201,3 @@ class Protesis_R(Implantes_M):
         return self.__tipoFijacion
     def verTamaño(self):
         return self.__tamaño
-class Sistema():
-    pass
