@@ -249,12 +249,133 @@ class Protesis_R(ImplantesM):
     def verTamaño(self):
         return self.__tamaño
 
-class Sistema():
+class Sistema:
     def __init__(self):
         self.__paciente = {}
+        self.inventario = []  
 
     def agregarPacientes(self, paciente):
-        self.__paciente[paciente.verCedula] = paciente
-    
+        self.__paciente[paciente.verCedula()] = paciente
+
     def obtenerPaciente(self, cc):
         return self.__paciente.get(cc)
+
+    def agregar_implante(self):
+        tipo_implante = valid_letter("Ingrese el tipo de implante (Protesis_C, Marcapasos, Stents, ImplantesD, Protesis_R): ")
+
+        if tipo_implante == "Protesis_C":
+            implante = Protesis_C()
+        
+        elif tipo_implante == "Marcapasos":
+            implante = Marcapasos()
+            
+        elif tipo_implante == "Stents":
+            implante = Stents()
+           
+        elif tipo_implante == "ImplantesD":
+            implante = ImplantesD()
+            
+        elif tipo_implante == "Protesis_R":
+            implante = Protesis_R()
+            
+        else:
+            print("---------------------------")
+            print("Tipo de implante no válido.")
+            print("---------------------------")
+            return
+    
+        implante.asignarNombre(valid_letter("Ingrese el nombre del implante: "))
+        implante.asignarId(valid_int("Ingrese el ID del implante: "))
+        implante.asignarEstado(valid_letter("INgresar estado del implante: "))
+        implante.asignarFecha(valid_date)
+        implante.asignarFabricante(valid_letter("Ingresar fabricante: "))
+        self.inventario.append(implante)
+        print("--------------------------------")
+        print("Implante agregado correctamente.")
+        print("--------------------------------")
+
+    def eliminar_implante(self):
+        id_implante = int(input("Ingrese el ID del implante que desea eliminar: "))
+
+        # Busca el implante en el inventario de la instancia de la clase
+        for i, implante in enumerate(self.inventario):
+            if implante.verId() == id_implante:
+                del self.inventario[i]
+                print("-------------------------------------------------------")
+                print(f"Implante con ID {id_implante} eliminado correctamente.")
+                print("-------------------------------------------------------")
+                return
+
+        print("------------------------------------------------------------------")
+        print(f"No se encontró un implante con ID {id_implante} en el inventario.")
+        print("------------------------------------------------------------------")
+
+    def editar_implante(self):
+        id_implante = valid_int("Ingrese el ID del implante que desea editar: ")
+
+        # Busca el implante en el inventario de la instancia de la clase
+        for i, implante in enumerate(self.inventario):
+            if implante.verId() == id_implante:
+                # Edita los detalles del implante
+                print("-----------------------------------------------------")
+                print(f"Implante con ID {id_implante} editado correctamente.")
+                print("-----------------------------------------------------")
+                return
+
+        print("------------------------------------------------------------------")
+        print(f"No se encontró un implante con ID {id_implante} en el inventario.")
+        print("------------------------------------------------------------------")
+
+    def visualizar_inventario(self):
+        print("\nInventario de Implantes:")
+        for implante in self.inventario:
+            print(f"Nombre: {implante.verNombre()}")
+            print(f"\nTipo: {type(implante).__name__}")
+            print(f"ID: {implante.verId()}")
+            print(f"Fecha: {implante.verFecha()}")
+            print(f"Estado: {implante.verEstado()}")
+            print(f"Fabricante: {implante.verFabricante()}")
+            
+def main():
+    sis = Sistema()
+
+    while True:
+        print("""\n1. Agregar Implante y asignarlo a un paciente
+            2. Eliminar Implante
+            3. Editar Información de Implante
+            4. Visualizar Inventario
+            5. Agregar paciente
+            6. Obtener paciente
+            7. Seguimiento de implantes
+            8. Salir""")
+
+        opcion = valid_int("Seleccione una opción (1-5): ")
+
+        if opcion == 1:
+            #agregar implante y asignar a paciente
+            sis.agregar_implante()
+        elif opcion == 2:
+            sis.eliminar_implante()
+        elif opcion == 3:
+            sis.editar_implante()
+        elif opcion == 4:
+            sis.visualizar_inventario()
+        elif opcion == 5:
+            #agregar paciente 
+            pass
+        elif opcion == 6:
+            sis.obtenerPaciente()
+        elif opcion == 7:
+            #seguimiento de implantes
+            pass
+        elif opcion == 8:
+            print("-------------")
+            print("¡Hasta luego!")
+            break
+        else:
+            print("-----------------------------------")
+            print("Opción no válida. Intente de nuevo.")
+            print("-----------------------------------")
+            
+if __name__ == "__main__":
+    main()
