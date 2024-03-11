@@ -1,4 +1,34 @@
 #Funcion para validar enteros
+from datetime import datetime,date
+import re
+r2 = r'^[A-Za-z-ñÑ-áÁéÉíÍóÓúÚ  ]+$'
+patron = re.compile(r2)
+
+def valid_date(msj):
+    """Función para validar el ingreso de la fecha"""
+    while True:
+        print("---------------------------------------------------------------")
+        print("A continuación ingrese la fecha en la que se realizó el estudio")
+        print("Ingrese el día: ")
+        dia = valid_int(msj)
+
+        print("Ingrese el mes: ")
+        mes = valid_int(msj)
+
+        print("Ingresar el año: ")
+        año = valid_int(msj)
+
+        try:
+            fecha = datetime(año, mes, dia)
+            break
+        except ValueError:
+            print("-------------------------------------------")
+            print("Fecha incorrecta, ingrese la fecha de nuevo")
+            print("-------------------------------------------")
+
+    print("Fecha: ", fecha.strftime("%d/%m/%Y"))
+    return str(fecha)
+
 def valid_int(value):
     ''' Funcion para validar números enteros '''
     while True:
@@ -7,6 +37,7 @@ def valid_int(value):
             return dato
         except ValueError:
             print("Ingrese un dato válido (números enteros)\n")
+            
 def valid_letter(question):
     import re
     ''' Valida que el dato ingresado sea de caracteres alfabetico, 
@@ -20,6 +51,7 @@ def valid_letter(question):
                 print("Ingresó caracteres especiales o números")
         except ValueError:
             print("\nIngrese solo letras y espacios, intente de nuevo")
+            
 class Paciente:
     #Creamos el método constructor de Paciente para incializar sus atributos
     def __init__(self):
