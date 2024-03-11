@@ -29,6 +29,16 @@ def valid_date(msj):
     print("Fecha: ", fecha.strftime("%d/%m/%Y"))
     return str(fecha)
 
+def valid_float(msj):
+    try:
+        data = float(input(msj))
+        return data
+    except:
+        print("----------------------------------------------------")
+        print("Ingrese solo números decimales. Inténtelo nuevamente")
+        print("----------------------------------------------------")
+        return valid_float(msj)
+
 def valid_int(value):
     ''' Funcion para validar números enteros '''
     while True:
