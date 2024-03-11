@@ -59,6 +59,7 @@ class Paciente:
       self.__cedula = 0
       self.__genero = ""
       self.__implante = {} #contenedor para almacenar los implantes asociados al paciente
+    
     #Getters  
     def verNombre(self):
         return self.__nombre
@@ -68,6 +69,7 @@ class Paciente:
         return self.__cedula
     def verImplante(self):
         return self.__implante
+    
     #Setters
     def asignarNombre(self,n):
         self.__nombre = n
@@ -76,7 +78,8 @@ class Paciente:
     def asignarCedula(self,c):
         self.__cedula = c
     def asignarImplante(self, implante):
-        self.__implante[Implantes_M.verId] = implante 
+        self.__implante[ImplantesM.verId] = implante 
+        
     #Deleters
     def eliminarImplante(self, id):
         if id in self.__implante:
@@ -84,8 +87,9 @@ class Paciente:
             print(f"Implante con número de identificación {id} eliminado correctamente.")
         else:
             print(f"No se encontro un implante con número de identificación {id} asociado al paciente.")
+            
 #Se crea la clase padre implantes_M que es la de las caracteristicas generales de los implantes medicos
-class Implantes_M():
+class ImplantesM():
     #Se  inicializa la clase con el metodo init
     def __init__(self):
         #Atributos privados
@@ -93,7 +97,8 @@ class Implantes_M():
         self.__id = 0
         self.__fecha = ""
         self.__fabricante = ""
-        self.__estado = ""
+        self.__estado = "" #activo o inactivo
+    
     #Los setters y los getters son los metodos de acceso a los atributos
     #setters
     def asignarNombre(self, n):
@@ -119,9 +124,9 @@ class Implantes_M():
     def verEstado(self):
         return self.__estado
         
-class Protesis_C(Implantes_M):
+class Protesis_C(ImplantesM):
     def __init__(self):
-        Implantes_M.__init__(self)
+        ImplantesM.__init__(self)
         self.__material = ""
         self.__fijacion = ""
         self.__tamaño = 0.0
@@ -142,9 +147,9 @@ class Protesis_C(Implantes_M):
     def verTamaño(self):
         return self.__tamaño
     
-class Marcapasos(Implantes_M):
+class Marcapasos(ImplantesM):
     def __init__(self):
-        Implantes_M.__init__(self)
+        ImplantesM.__init__(self)
         self.__electrodos = 0
         self.__tipo = "" #alambrico o inalambrico
         self.__frecuencia = 0.0
@@ -165,9 +170,9 @@ class Marcapasos(Implantes_M):
     def verFrecuencia(self):
        return self.__frecuencia
     
-class Stents(Implantes_M):
+class Stents(ImplantesM):
     def __init__(self):
-        Implantes_M.__init__(self) #llamo el inicializador de la clase implantes medicos y obtengo sus atributos
+        ImplantesM.__init__(self) #llamo el inicializador de la clase implantes medicos y obtengo sus atributos
         self.__longitud = 0.0 # agrego atributos propios de la clase Stents y metodos
         self.__diametro = 0.0
         self.__material = ""
@@ -188,9 +193,9 @@ class Stents(Implantes_M):
     def verMaterial(self):
         return self.__material
 
-class ImplantesD(Implantes_M):
+class ImplantesD(ImplantesM):
     def __init__(self):
-        Implantes_M.__init__(self) #llamo el inicializador de la clase implantes medicos y obtengo sus atributos
+        ImplantesM.__init__(self) #llamo el inicializador de la clase implantes medicos y obtengo sus atributos
         self.__forma = ""
         self.__sistemaFijacion = ""
         self.__material = ""
@@ -211,9 +216,9 @@ class ImplantesD(Implantes_M):
     def verMaterial(self):
         return self.__material
 
-class Protesis_R(Implantes_M):
+class Protesis_R(ImplantesM):
     def __init__(self):
-        Implantes_M.__init__(self) #llamo el inicializador de la clase implantes medicos y obtengo sus atributos
+        ImplantesM.__init__(self) #llamo el inicializador de la clase implantes medicos y obtengo sus atributos
         self.__material = ""
         self.__tipoFijacion = ""
         self.__tamaño = 0.0
@@ -233,3 +238,7 @@ class Protesis_R(Implantes_M):
         return self.__tipoFijacion
     def verTamaño(self):
         return self.__tamaño
+
+
+    
+    
