@@ -210,30 +210,4 @@ class Sistema():
         self.__paciente[paciente.verCedula] = paciente
     
     def obtenerPaciente(self, cc):
-        return self.__paciente.get(cc)
-    
-class main():
-    sis = Sistema()
-
-    while True:
-        menu = valid_int("""
-                         1. Agregar paciente
-                         2. Agregar implante a un paciente
-                         3. Eliminar implante de un paciente
-                         4. Mostrar implantes de un paciente
-                         5. Salir
-                         """)
-        
-        if menu == 1:
-            pass
-        elif menu == 2:
-            pass
-        elif menu == 3:
-            pass
-        elif menu == 4:
-            pass
-        elif menu == 5:
-            break
-        else:
-            print("Ingreso un dato erroneo")
-             
+        return self.__paciente.get(cc)        
