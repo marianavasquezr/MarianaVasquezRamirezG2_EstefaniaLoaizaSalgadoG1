@@ -248,7 +248,3 @@ class Protesis_R(ImplantesM):
         return self.__tipoFijacion
     def verTamaño(self):
         return self.__tamaño
-
-
-    
-    
