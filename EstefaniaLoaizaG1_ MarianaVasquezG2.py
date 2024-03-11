@@ -248,3 +248,13 @@ class Protesis_R(ImplantesM):
         return self.__tipoFijacion
     def verTamaño(self):
         return self.__tamaño
+
+class Sistema():
+    def __init__(self):
+        self.__paciente = {}
+
+    def agregarPacientes(self, paciente):
+        self.__paciente[paciente.verCedula] = paciente
+    
+    def obtenerPaciente(self, cc):
+        return self.__paciente.get(cc)
