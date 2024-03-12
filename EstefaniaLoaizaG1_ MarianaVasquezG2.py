@@ -253,10 +253,44 @@ class Sistema:
     def __init__(self):
         self.__paciente = {}
         self.inventario = []  
-
+        
     def agregarPacientes(self, paciente):
-        self.__paciente[paciente.verCedula()] = paciente
+        self.__pacientes[paciente.verCedula()] = paciente
+        print("----------------------------------------------------------")
+        print(f"Paciente {paciente.verNombre()} registrado correctamente.")
+        print("----------------------------------------------------------")
 
+    def asignarImplanteAPaciente(self, cedula, implante, fecha_implantacion, medico_responsable, estado_implante):
+        paciente = self.__pacientes.get(cedula)
+        if paciente:
+            implante.asignarFecha(fecha_implantacion)
+            implante.asignarEstado(estado_implante)
+            # Agregar información adicional si es necesario, como el médico responsable
+            paciente.asignarImplante(implante)
+            print("----------------------------------------------------------")
+            print(f"Implante asignado a {paciente.verNombre()} correctamente.")
+            print("----------------------------------------------------------")
+            
+        else:
+            print("---------------------------------------------------")
+            print(f"No se encontró un paciente con la cédula {cedula}.")
+            print("---------------------------------------------------")
+            
+    def realizarSeguimientoImplante(self, id_implante, fecha_revision, estado_implante):
+        for implante in self.__implantes:
+            if implante.verId() == id_implante:
+                # Actualizar información de seguimiento del implante
+                implante.asignarEstado(estado_implante)
+                # Registrar la fecha de revisión
+                # Agregar cualquier otra información de seguimiento si es necesario
+                print("-------------------------------------------------------------")
+                print(f"Seguimiento realizado para el implante con ID {id_implante}.")
+                print("-------------------------------------------------------------")
+                return
+        print("-------------------------------------------------")
+        print(f"No se encontró un implante con ID {id_implante}.")
+        print("-------------------------------------------------")
+        
     def obtenerPaciente(self, cc):
         return self.__paciente.get(cc)
 
@@ -353,25 +387,48 @@ def main():
 
         if opcion == 1:
             #agregar implante y asignar a paciente
-            sis.agregar_implante()
+            tipo_implante = valid_letter("Ingrese el tipo de implante (Protesis_C, Marcapasos, Stents, ImplantesD, Protesis_R): ")
+            implante = None
+            # Crear instancia de tipo de implante según la opción ingresada
+            # Solicitar detalles específicos del implante
+            # Solicitar información sobre el paciente al que se asignará el implante
+            cedula_paciente = valid_int("Ingrese la cédula del paciente al que se asignará el implante: ")
+            fecha_implantacion = valid_date("Ingrese la fecha de implantación: ")
+            medico_responsable = valid_letter("Ingrese el médico responsable: ")
+            estado_implante = valid_letter("Ingrese el estado del implante: ")
+
+            sis.asignarImplanteAPaciente(cedula_paciente, implante, fecha_implantacion, medico_responsable, estado_implante)
+        
         elif opcion == 2:
             sis.eliminar_implante()
         elif opcion == 3:
             sis.editar_implante()
         elif opcion == 4:
             sis.visualizar_inventario()
+            
         elif opcion == 5:
             #agregar paciente 
-            pass
+            paciente = Paciente()
+            # Solicitar detalles del paciente
+            sis.agregarPaciente(paciente)
+            
         elif opcion == 6:
             sis.obtenerPaciente()
+            
         elif opcion == 7:
             #seguimiento de implantes
-            pass
+            id_implante = valid_int("Ingrese el ID del implante para realizar seguimiento: ")
+            fecha_revision = valid_date("Ingrese la fecha de revisión: ")
+            estado_implante = valid_letter("Ingrese el nuevo estado del implante: ")
+
+            sis.realizarSeguimientoImplante(id_implante, fecha_revision, estado_implante)
+            
         elif opcion == 8:
             print("-------------")
             print("¡Hasta luego!")
+            print("-------------")
             break
+        
         else:
             print("-----------------------------------")
             print("Opción no válida. Intente de nuevo.")
