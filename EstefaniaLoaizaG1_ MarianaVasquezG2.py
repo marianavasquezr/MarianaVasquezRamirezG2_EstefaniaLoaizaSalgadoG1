@@ -331,7 +331,7 @@ class Sistema:
     
         implante.asignarNombre(valid_letter("Ingrese el nombre del implante: "))
         implante.asignarId(valid_int("Ingrese el ID del implante: "))
-        implante.asignarEstado(valid_letter("INgresar estado del implante: "))
+        implante.asignarEstado(valid_letter("Ingresar estado del implante: "))
         implante.asignarFecha(valid_date)
         implante.asignarFabricante(valid_letter("Ingresar fabricante: "))
         self.inventario.append(implante)
@@ -398,18 +398,21 @@ def main():
 
         if opcion == 1:
             #agregar implante y asignar a paciente
-            tipo_implante = valid_letter("Ingrese el tipo de implante (Protesis_C, Marcapasos, Stents, ImplantesD, Protesis_R): ")
-            implante = None
-            # Crear instancia de tipo de implante según la opción ingresada
-            # Solicitar detalles específicos del implante
-            # Solicitar información sobre el paciente al que se asignará el implante
+            sis.agregar_implante()
             cedula_paciente = valid_int("Ingrese la cédula del paciente al que se asignará el implante: ")
-            fecha_implantacion = valid_date("Ingrese la fecha de implantación: ")
-            medico_responsable = valid_letter("Ingrese el médico responsable: ")
-            estado_implante = valid_letter("Ingrese el estado del implante: ")
+            paciente = sis.obtenerPaciente(cedula_paciente)
+            if paciente:
+                implante = sis.inventario[-1] #toma el ultimo implante agregado al inventario
+                fecha_implantacion = valid_date("Ingrese la fecha de implantación: ")
+                medico_responsable = valid_letter("Ingrese el médico responsable: ")
+                estado_implante = valid_letter("Ingrese el estado del implante: ")
 
-            sis.asignarImplanteAPaciente(cedula_paciente, implante, fecha_implantacion, medico_responsable, estado_implante)
-        
+                sis.asignarImplanteAPaciente(cedula_paciente, implante, fecha_implantacion, medico_responsable, estado_implante)
+            else:
+                print("------------------------------------------------------------")
+                print(f"No se encontro un paciente con la cédula {cedula_paciente}.")
+                print("------------------------------------------------------------")
+
         elif opcion == 2:
             sis.eliminar_implante()
         elif opcion == 3:
@@ -419,9 +422,15 @@ def main():
             
         elif opcion == 5:
             #agregar paciente 
-            paciente = Paciente()
-            # Solicitar detalles del paciente
-            sis.agregarPaciente(paciente)
+            paciente_nuevo = Paciente()
+            paciente_nuevo.asignarNombre(valid_letter("Ingrese el nombre del paciente: "))
+            paciente_nuevo.asignarCedula(valid_int("Ingrese la cedula del paciente: "))
+            paciente_nuevo.asignarGenero(valid_letter("Ingrese el genero del paciente: "))
+            paciente_nuevo.asignarMedico(valid_letter("Ingrese el medico responsable del paciente: "))
+            sis.agregarPaciente(paciente_nuevo)
+            print("--------------------------------------------------------------")
+            print(f"Paciente {paciente_nuevo.verNombre} registrado correctamente.")
+            print("--------------------------------------------------------------")
             
         elif opcion == 6:
             sis.obtenerPaciente()
