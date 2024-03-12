@@ -68,6 +68,7 @@ class Paciente:
       self.__nombre = ""
       self.__cedula = 0
       self.__genero = ""
+      self.__medico = ""
       self.__implante = {} #contenedor para almacenar los implantes asociados al paciente
     
     #Getters  
@@ -79,6 +80,8 @@ class Paciente:
         return self.__cedula
     def verImplante(self):
         return self.__implante
+    def verMedico(self): #nuevo atributo
+        return self.__medico
     
     #Setters
     def asignarNombre(self,n):
@@ -87,6 +90,8 @@ class Paciente:
         self.__genero = g
     def asignarCedula(self,c):
         self.__cedula = c
+    def asignarMedico(self,m):
+        self.__medico = m
     def asignarImplante(self, implante):
         self.__implante[ImplantesM.verId] = implante 
         
@@ -265,7 +270,7 @@ class Sistema:
         if paciente:
             implante.asignarFecha(fecha_implantacion)
             implante.asignarEstado(estado_implante)
-            # Agregar información adicional si es necesario, como el médico responsable
+            implante.asignarMedico(medico_responsable)# Agregar información adicional si es necesario, como el médico responsable
             paciente.asignarImplante(implante)
             print("----------------------------------------------------------")
             print(f"Implante asignado a {paciente.verNombre()} correctamente.")
@@ -281,7 +286,7 @@ class Sistema:
             if implante.verId() == id_implante:
                 # Actualizar información de seguimiento del implante
                 implante.asignarEstado(estado_implante)
-                # Registrar la fecha de revisión
+                implante.asignarFecha(fecha_revision) # Registrar la fecha de revisión
                 # Agregar cualquier otra información de seguimiento si es necesario
                 print("-------------------------------------------------------------")
                 print(f"Seguimiento realizado para el implante con ID {id_implante}.")
@@ -295,21 +300,27 @@ class Sistema:
         return self.__paciente.get(cc)
 
     def agregar_implante(self):
-        tipo_implante = valid_letter("Ingrese el tipo de implante (Protesis_C, Marcapasos, Stents, ImplantesD, Protesis_R): ")
+        tipo_implante = valid_letter("""Ingrese el tipo de implante:
+                                     a. Protesis_C
+                                     b. Marcapasos
+                                     c. Stents
+                                     d. ImplantesD
+                                     e. Protesis_R
+                                     >>> """)
 
-        if tipo_implante == "Protesis_C":
+        if tipo_implante == "a":
             implante = Protesis_C()
         
-        elif tipo_implante == "Marcapasos":
+        elif tipo_implante == "b":
             implante = Marcapasos()
             
-        elif tipo_implante == "Stents":
+        elif tipo_implante == "c":
             implante = Stents()
            
-        elif tipo_implante == "ImplantesD":
+        elif tipo_implante == "d":
             implante = ImplantesD()
             
-        elif tipo_implante == "Protesis_R":
+        elif tipo_implante == "e":
             implante = Protesis_R()
             
         else:
@@ -329,7 +340,7 @@ class Sistema:
         print("--------------------------------")
 
     def eliminar_implante(self):
-        id_implante = int(input("Ingrese el ID del implante que desea eliminar: "))
+        id_implante = valid_int("Ingrese el ID del implante que desea eliminar: ")
 
         # Busca el implante en el inventario de la instancia de la clase
         for i, implante in enumerate(self.inventario):
