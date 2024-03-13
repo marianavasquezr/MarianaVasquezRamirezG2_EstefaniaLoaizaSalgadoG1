@@ -266,10 +266,7 @@ class Sistema:
         
     def agregarPacientes(self, paciente):
         self.__paciente[paciente.verCedula()] = paciente
-        print("----------------------------------------------------------")
-        print(f"Paciente {paciente.verNombre()} registrado correctamente.")
-        print("----------------------------------------------------------")
-
+        
     def asignarImplanteAPaciente(self, cedula, implante, fecha_implantacion, medico_responsable, estado_implante):
         paciente = self.__paciente.get(cedula)
         if paciente:
@@ -377,14 +374,30 @@ class Sistema:
         print("------------------------------------------------------------------")
 
     def visualizar_inventario(self):
+        print("--------------------------")
         print("\nInventario de Implantes:")
-        for implante in self.inventario:
-            print(f"Nombre: {implante.verNombre()}")
-            print(f"\nTipo: {type(implante).__name__}")
-            print(f"ID: {implante.verId()}")
-            print(f"Fecha: {implante.verFecha()}")
-            print(f"Estado: {implante.verEstado()}")
-            print(f"Fabricante: {implante.verFabricante()}")
+        print("--------------------------")
+    
+        if not self.inventario:
+            print("El inventario está vacío.")
+        else:
+            for i, implante in enumerate(self.inventario, start=1):
+                print(f"\nImplante {i}:")
+                print(f"Nombre: {implante.verNombre()}")
+                print(f"Tipo: {type(implante).__name__}")
+                print(f"ID: {implante.verId()}")
+        
+                fecha_implante = implante.verFecha()
+                if isinstance(fecha_implante, datetime):
+                    fecha_formateada = fecha_implante.strftime("%d/%m/%Y")
+                    print(f"Fecha: {fecha_formateada}")
+                else:
+                    print(f"Fecha: {fecha_implante}")
+
+                print(f"Estado: {implante.verEstado()}")
+                print(f"Fabricante: {implante.verFabricante()}")
+
+        print("--------------------------------------------------------------")
             
 def main():
     sis = Sistema()
@@ -422,8 +435,13 @@ def main():
             sis.eliminar_implante()
         elif opcion == 3:
             sis.editar_implante()
+            
         elif opcion == 4:
             sis.visualizar_inventario()
+            if not sis.inventario:
+                print("-------------------------")
+                print("El inventario está vacío.")
+                print("-------------------------")
             
         elif opcion == 5:
             #agregar paciente 
@@ -434,7 +452,7 @@ def main():
             paciente_nuevo.asignarMedico(valid_letter("Ingrese el medico responsable del paciente: "))
             sis.agregarPacientes(paciente_nuevo)
             print("--------------------------------------------------------------")
-            print(f"Paciente {paciente_nuevo.verNombre} registrado correctamente.")
+            print(f"Paciente {paciente_nuevo.verNombre()} registrado correctamente.")
             print("--------------------------------------------------------------")
             
         elif opcion == 6:
