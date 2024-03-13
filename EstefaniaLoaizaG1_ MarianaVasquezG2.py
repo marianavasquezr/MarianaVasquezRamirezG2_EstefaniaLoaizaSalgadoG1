@@ -113,6 +113,7 @@ class ImplantesM():
         self.__fecha = ""
         self.__fabricante = ""
         self.__estado = "" #activo o inactivo
+        self.__medico = ""
     
     #Los setters y los getters son los metodos de acceso a los atributos
     #setters
@@ -126,6 +127,8 @@ class ImplantesM():
         self.__fabricante = fa    
     def asignarEstado(self, e):
         self.__estado = e
+    def asignarMedico(self, m):
+        self.__medico = m
         
     #getters
     def verNombre(self):
@@ -138,6 +141,8 @@ class ImplantesM():
         return self.__fabricante
     def verEstado(self):
         return self.__estado
+    def verMedico(self):
+        return self.__medico
         
 class Protesis_C(ImplantesM):
     def __init__(self):
@@ -260,13 +265,13 @@ class Sistema:
         self.inventario = []  
         
     def agregarPacientes(self, paciente):
-        self.__pacientes[paciente.verCedula()] = paciente
+        self.__paciente[paciente.verCedula()] = paciente
         print("----------------------------------------------------------")
         print(f"Paciente {paciente.verNombre()} registrado correctamente.")
         print("----------------------------------------------------------")
 
     def asignarImplanteAPaciente(self, cedula, implante, fecha_implantacion, medico_responsable, estado_implante):
-        paciente = self.__pacientes.get(cedula)
+        paciente = self.__paciente.get(cedula)
         if paciente:
             implante.asignarFecha(fecha_implantacion)
             implante.asignarEstado(estado_implante)
@@ -427,7 +432,7 @@ def main():
             paciente_nuevo.asignarCedula(valid_int("Ingrese la cedula del paciente: "))
             paciente_nuevo.asignarGenero(valid_letter("Ingrese el genero del paciente: "))
             paciente_nuevo.asignarMedico(valid_letter("Ingrese el medico responsable del paciente: "))
-            sis.agregarPaciente(paciente_nuevo)
+            sis.agregarPacientes(paciente_nuevo)
             print("--------------------------------------------------------------")
             print(f"Paciente {paciente_nuevo.verNombre} registrado correctamente.")
             print("--------------------------------------------------------------")
