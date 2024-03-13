@@ -499,7 +499,7 @@ def main():
             #agregar implante y asignar a paciente
             sis.agregar_implante()
             cedula_paciente = valid_int("Ingrese la cédula del paciente al que se asignará el implante: ")
-            paciente = sis.obtenerPaciente(cedula_paciente)
+            paciente = sis.obtenerPaciente()
             if paciente:
                 implante = sis.inventario[-1] #toma el ultimo implante agregado al inventario
                 fecha_implantacion = valid_date("Ingrese la fecha de implantación: ")
