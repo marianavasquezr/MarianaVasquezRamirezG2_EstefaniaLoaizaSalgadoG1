@@ -284,7 +284,7 @@ class Sistema:
             print("---------------------------------------------------")
             
     def realizarSeguimientoImplante(self, id_implante, fecha_revision, estado_implante):
-        for implante in self.__implantes:
+        for implante in self.inventario:
             if implante.verId() == id_implante:
                 # Actualizar información de seguimiento del implante
                 implante.asignarEstado(estado_implante)
@@ -298,8 +298,54 @@ class Sistema:
         print(f"No se encontró un implante con ID {id_implante}.")
         print("-------------------------------------------------")
         
-    def obtenerPaciente(self, cc):
-        return self.__paciente.get(cc)
+    def obtenerPaciente(self):
+        print("\nOpciones de búsqueda:")
+        print("1. Buscar por cédula")
+        print("2. Buscar por nombre")
+        print("3. Volver al menú principal")
+
+        opcion = valid_int("Ingrese el número correspondiente a la opción de búsqueda: ")
+
+        if opcion == 1:
+            cedula = valid_int("Ingrese la cédula del paciente: ")
+            paciente = self.__paciente.get(cedula)
+            if paciente:
+                self.mostrarDetallesPaciente(paciente)
+            else:
+                print("---------------------------------------------------")
+                print(f"No se encontró un paciente con la cédula {cedula}.")
+                print("---------------------------------------------------")
+                
+        elif opcion == 2:
+            nombre = valid_letter("Ingrese el nombre del paciente: ")
+            pacientes_encontrados = [paciente for paciente in self.__paciente.values() if paciente.verNombre().lower() == nombre.lower()]
+            if pacientes_encontrados:
+                print("\nPacientes encontrados:")
+                for paciente in pacientes_encontrados:
+                    self.mostrarDetallesPaciente(paciente)
+                return pacientes_encontrados[0]
+            else:
+                print("-------------------------------------------------------")
+                print(f"No se encontró ningún paciente con el nombre {nombre}.")
+                print("-------------------------------------------------------")
+                
+        elif opcion == 3:
+            return
+        else:
+            print("-----------------------------------")
+            print("Opción no válida. Intente de nuevo.")
+            print("-----------------------------------")
+
+    def mostrarDetallesPaciente(self, paciente):
+        print("\nDetalles del paciente:")
+        print(f"Nombre: {paciente.verNombre()}")
+        print(f"Cédula: {paciente.verCedula()}")
+        print(f"Género: {paciente.verGenero()}")
+        print(f"Médico Responsable: {paciente.verMedico()}")
+        print("Implantes asociados:")
+        for id_implante, implante in paciente.verImplante().items():
+            print(f"ID: {id_implante}, Tipo: {type(implante).__name__}, Fecha de Implantación: {implante.verFecha()}, Estado: {implante.verEstado()}")
+
 
     def agregar_implante(self):
         tipo_implante = valid_letter("""Ingrese el tipo de implante:
@@ -364,14 +410,49 @@ class Sistema:
         for i, implante in enumerate(self.inventario):
             if implante.verId() == id_implante:
                 # Edita los detalles del implante
-                print("-----------------------------------------------------")
-                print(f"Implante con ID {id_implante} editado correctamente.")
-                print("-----------------------------------------------------")
-                return
+                print("Implante encontrado. Detalles actuales:")
+                print(f"Nombre: {implante.verNombre()}")
+                print(f"Fecha: {implante.verFecha()}")
+                print(f"Estado: {implante.verEstado()}")
+                print(f"Fabricante: {implante.verFabricante()}")
+
+                # Solicita la información actualizada
+                while True:
+                    print("\nOpciones de edición:")
+                    print("1. Nombre")
+                    print("2. Fecha")
+                    print("3. Estado")
+                    print("4. Fabricante")
+
+                    opcion = valid_int("Ingrese el número correspondiente a la opción que desea editar: ")
+
+                    if opcion == 1:
+                        nuevo_nombre = input("Ingrese el nuevo nombre (deje en blanco para mantener el actual): ")
+                        implante.asignarNombre(nuevo_nombre)
+                    elif opcion == 2:
+                        nueva_fecha = input("Ingrese la nueva fecha (deje en blanco para mantener la actual): ")
+                        implante.asignarFecha(nueva_fecha)
+                    elif opcion == 3:
+                        nuevo_estado = input("Ingrese el nuevo estado (deje en blanco para mantener el actual): ")
+                        implante.asignarEstado(nuevo_estado)
+                    elif opcion == 4:
+                        nuevo_fabricante = input("Ingrese el nuevo fabricante (deje en blanco para mantener el actual): ")
+                        implante.asignarFabricante(nuevo_fabricante)
+                    else:
+                        print("-----------------------------------")
+                        print("Opción no válida. Intente de nuevo.")
+                        print("-----------------------------------")
+                        continue
+
+                    print("-----------------------------------------------------")
+                    print(f"Implante con ID {id_implante} editado correctamente.")
+                    print("-----------------------------------------------------")
+                    return
 
         print("------------------------------------------------------------------")
         print(f"No se encontró un implante con ID {id_implante} en el inventario.")
         print("------------------------------------------------------------------")
+
 
     def visualizar_inventario(self):
         print("--------------------------")
@@ -408,7 +489,7 @@ def main():
             3. Editar Información de Implante
             4. Visualizar Inventario
             5. Agregar paciente
-            6. Obtener paciente
+            6. Visualizar paciente
             7. Seguimiento de implantes
             8. Salir""")
 
@@ -433,6 +514,7 @@ def main():
 
         elif opcion == 2:
             sis.eliminar_implante()
+            
         elif opcion == 3:
             sis.editar_implante()
             
@@ -456,15 +538,30 @@ def main():
             print("--------------------------------------------------------------")
             
         elif opcion == 6:
-            sis.obtenerPaciente()
+            paciente = sis.obtenerPaciente()
+            if paciente:
+                sis.mostrarDetallesPaciente(paciente)  
             
         elif opcion == 7:
             #seguimiento de implantes
             id_implante = valid_int("Ingrese el ID del implante para realizar seguimiento: ")
-            fecha_revision = valid_date("Ingrese la fecha de revisión: ")
-            estado_implante = valid_letter("Ingrese el nuevo estado del implante: ")
 
-            sis.realizarSeguimientoImplante(id_implante, fecha_revision, estado_implante)
+            # Verificar si el ID del implante existe en el inventario
+            implante_seleccionado = None
+            for implante in sis.inventario:
+                if implante.verId() == id_implante:
+                    implante_seleccionado = implante
+                    break
+
+            if implante_seleccionado:
+                fecha_revision = valid_date("Ingrese la fecha de revisión (formato: DD/MM/YYYY): ")
+                estado_implante = valid_letter("Ingrese el nuevo estado del implante: ")
+                sis.realizarSeguimientoImplante(id_implante, fecha_revision, estado_implante)
+    
+            else:
+                print("-------------------------------------------------")
+                print(f"No se encontró un implante con ID {id_implante}.")
+                print("-------------------------------------------------")
             
         elif opcion == 8:
             print("-------------")
